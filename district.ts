@@ -1,7 +1,7 @@
-import { activeDistrict, districts } from "./plugin";
+import { activeDistrict } from "./plugin";
 
 export class District {
-    static size = 0.01;
+    static size = 0.005;
 
     id: string;
     position: GlobalPosition;
