@@ -3,7 +3,7 @@
 	"displayName": "Report Consumers",
 	"icon": "icon.svg",
 	"author": "",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"scopes": [
 		"core",
 		"ui",
@@ -18,17 +18,29 @@
 		"typescript": "^4.7.4"
 	},
 	"consumables": {
-        "ecological-report": {
-            "name": "Ecological Report",
-            "description": "Detailed report about the ecologics of a parcel",
-            "trial": 1,
-            "expires": 30,
-            "cost": [
-                { "count": 1, "cost": 50 },
-                { "count": 3, "cost": 120 },
-                { "count": 10, "cost": 300 },
-                { "flat": true, "cost": 500 }
-            ]
-        }
-    }
+		"ecological-report": {
+			"name": "Ecological Report",
+			"description": "Detailed report about the ecologics of a parcel",
+			"trial": 1,
+			"expires": 30,
+			"cost": [
+				{
+					"count": 1,
+					"cost": 50
+				},
+				{
+					"count": 3,
+					"cost": 120
+				},
+				{
+					"count": 10,
+					"cost": 300
+				},
+				{
+					"flat": true,
+					"cost": 500
+				}
+			]
+		}
+	}
 }
