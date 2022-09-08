@@ -16,6 +16,21 @@ section.add(districtSection);
 const marker = new map.Marker(map.location.center.flattenedCopy(), Color.black);
 marker.overlayBuildings = true;
 
+const log = new ui.Container();
+section.add(log);
+
+const clearLogButton = new ui.Button('Clear Log', () => {
+    for (let child of log.children.slice(1)) {
+        log.remove(child);
+    }
+});
+
+log.add(clearLogButton);
+
+export const createLog = message => {
+    log.insertAfter(new ui.Note(ui.info, message), clearLogButton);
+};
+
 map.location.onCenterChange.subscribe(position => {
     marker.move(position.flattenedCopy());
 
@@ -37,6 +52,6 @@ map.location.onCenterChange.subscribe(position => {
         section.remove(districtSection);
 
         districtSection = district.render();
-        section.add(districtSection);
+        section.insertBefore(districtSection, log);
     }
 });

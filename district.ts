@@ -1,4 +1,4 @@
-import { activeDistrict } from "./plugin";
+import { activeDistrict, createLog } from "./plugin";
 
 export class District {
     static size = 0.005;
@@ -36,13 +36,11 @@ export class District {
     }
 
     update() {
-        this.area?.remove();
+        marketplace.restore('ecological-report', this.id).then(token => {
+            this.area?.remove();
 
-        if (activeDistrict == this) {
-            this.area = new map.ColoredArea([...this.bounds, this.position], Color.yellow.copy(0.5), Color.yellow);
-        } else {
-            this.area = new map.ColoredArea([...this.bounds, this.position], Color.white.copy(0.25), Color.white);
-        }
+            this.area = new map.ColoredArea([...this.bounds, this.position], (token ? Color.green : Color.red).copy(0.25), Color.white);
+        });
     }
 
     render() {
@@ -50,17 +48,25 @@ export class District {
         section.add(new ui.Paragraph('Get a nature report about this district to learn more about the environment influences and data'));
 
         marketplace.restore('ecological-report', this.id).then(token => {
+            createLog(`Restore for ${this.id}: ${token}`);
+
             if (token) {
-                section.add(new ui.LinkButton('Download Report', `https://mock.acryps.com/report/${this.id}`))
+                section.add(new ui.LinkButton('Download Report (open Luucy)', `https://www.luucy.ch/`))
             } else {
                 const buyButton = new ui.Button('Buy Report', async () => {
+                    createLog('Requesting Purchase');
+
                     const token = await marketplace.purchase('ecological-report', this.id);
+
+                    createLog(`Purchase Response: ${token}`);
 
                     if (token) {
                         section.add(new ui.LinkButton('Download Report', `https://mock.acryps.com/report/${this.id}`));
 
                         section.remove(buyButton);
                     }
+
+                    this.update();
                 });
 
                 section.add(buyButton);
