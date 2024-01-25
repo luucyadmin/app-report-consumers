@@ -1,7 +1,8 @@
 import { District } from "./district";
+import i18n from './i18n';
 
 const section = ui.createProjectPanelSection();
-section.add(new ui.Paragraph('Move around to select districts'));
+section.add(new ui.Paragraph(i18n.Move_around_to_select()));
 
 const initialDistrict = new District(map.location.center);
 
@@ -19,7 +20,7 @@ marker.overlayBuildings = true;
 const log = new ui.Container();
 section.add(log);
 
-const clearLogButton = new ui.Button('Clear Log', () => {
+const clearLogButton = new ui.Button(i18n.Clear_Log(), () => {
     for (let child of log.children.slice(1)) {
         log.remove(child);
     }
