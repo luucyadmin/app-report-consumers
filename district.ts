@@ -1,5 +1,5 @@
-import { activeDistrict, createLog } from "./plugin";
-
+import { createLog } from "./plugin";
+import i18n from './i18n';
 export class District {
     static size = 0.005;
 
@@ -44,35 +44,35 @@ export class District {
     }
 
     render() {
-        const section = new ui.Section(`District ${this.id}`);
-        section.add(new ui.Paragraph('Get a nature report about this district to learn more about the environment influences and data'));
-
+        const section = new ui.Section(i18n.District_Title({id: this.id}));
+        section.add(new ui.Paragraph(i18n.Nature_Report_Info()));
+    
         marketplace.restore('ecological-report', this.id).then(token => {
-            createLog(`Restore for ${this.id}: ${token}`);
-
+            createLog(i18n.Restore_Log()({id: this.id, token}));
+    
             if (token) {
-                section.add(new ui.LinkButton('Download Report (open Luucy)', `https://www.luucy.ch/`))
+                section.add(new ui.LinkButton(i18n.Download_Report_Luucy(), `https://www.luucy.ch/`));
             } else {
-                const buyButton = new ui.Button('Buy Report', async () => {
-                    createLog('Requesting Purchase');
-
+                const buyButton = new ui.Button(i18n.Buy_Report(), async () => {
+                    createLog(i18n.Requesting_Purchase());
+    
                     const token = await marketplace.purchase('ecological-report', this.id);
-
-                    createLog(`Purchase Response: ${token}`);
-
+    
+                    createLog(i18n.Purchase_Response()({token}));
+    
                     if (token) {
-                        section.add(new ui.LinkButton('Download Report', `https://mock.acryps.com/report/${this.id}`));
-
+                        section.add(new ui.LinkButton(i18n.Download_Report(), `https://mock.acryps.com/report/${this.id}`));
+    
                         section.remove(buyButton);
                     }
-
+    
                     this.update();
                 });
-
+    
                 section.add(buyButton);
             }
         })
-
+    
         return section;
     }
 }
