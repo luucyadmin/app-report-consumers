@@ -4,7 +4,7 @@
 	"icon": "icon.svg",
 	"author": "",
 	"productId": 240,
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"scopes": [
 		"core",
 		"ui",
