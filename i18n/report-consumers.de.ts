@@ -9,5 +9,5 @@ export default {
   Buy_Report: 'Buy Report',
   Requesting_Purchase: 'Requesting Purchase',
   Purchase_Response: 'Purchase Response: {{token}}',
-  Download_Report: 'Download Report',
+  Download_Report: 'Download Report'
 };
