@@ -5,9 +5,9 @@
 
 files: [
  {
-  "source" : "/i18n/en.ts",
-  "dest": "/app/report-consumers/en.ts",
-  "translation" : "/i18n/%two_letters_code%.ts",
+  "source" : "/i18n/report-consumers.en.ts",
+  "dest": "/app/report-consumers/report-consumers.en.ts",
+  "translation" : "/i18n/report-consumers.%two_letters_code%.ts",
   "update_option": "update_as_unapproved",
   "labels" : [
       "report-consumers"
