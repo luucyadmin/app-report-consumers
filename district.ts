@@ -48,7 +48,7 @@ export class District {
         section.add(new ui.Paragraph(i18n.Nature_Report_Info()));
     
         marketplace.restore('ecological-report', this.id).then(token => {
-            createLog(i18n.Restore_Log()({id: this.id, token}));
+            createLog(i18n.Restore_Log({id: this.id, token}));
     
             if (token) {
                 section.add(new ui.LinkButton(i18n.Download_Report_Luucy(), `https://www.luucy.ch/`));
@@ -58,7 +58,7 @@ export class District {
     
                     const token = await marketplace.purchase('ecological-report', this.id);
     
-                    createLog(i18n.Purchase_Response()({token}));
+                    createLog(i18n.Purchase_Response({token}));
     
                     if (token) {
                         section.add(new ui.LinkButton(i18n.Download_Report(), `https://mock.acryps.com/report/${this.id}`));
