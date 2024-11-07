@@ -7,16 +7,17 @@
 	"version": "1.0.8",
 	"scopes": [
 		"core",
-		"ui",
+		"data",
 		"map",
 		"map.location",
-		"marketplace"
+		"marketplace",
+		"ui"
 	],
 	"dependencies": {
-		"luucy-types": "github:luucyadmin/luucy-types#next/consumables"
+		"luucy-types": "git+ssh://git@gitlab.com:luucy/sdk/luucy-types.git#next/3.7"
 	},
 	"devDependencies": {
-		"typescript": "^4.7.4"
+		"typescript": "^5.6.3"
 	},
 	"consumables": {
 		"ecological-report": {
