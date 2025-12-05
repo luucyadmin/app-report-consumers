@@ -6,12 +6,11 @@ section.add(new ui.Paragraph(i18n.Move_around_to_select()));
 
 export const districts: District[] = [];
 
-export let activeDistrict;
-
+let activeDistrict;
 let districtSection;
+let marker;
+let centerChangeSubscription;
 
-const marker = new map.Marker(map.location.center.flattenedCopy(), Color.black);
-marker.overlayBuildings = true;
 
 const log = new ui.Container();
 section.add(log);
@@ -28,41 +27,56 @@ export const createLog = (message) => {
   log.insertAfter(new ui.Note(ui.info, message), clearLogButton);
 };
 
-map.location.onCenterChange.subscribe((position) => {
-  marker.move(position.flattenedCopy());
-
-  let district = districts.find((district) => district.isInside(position));
-
-  if (!district) {
-    district = new District(position);
-
-    districts.push(district);
-  }
-
-  if (district != activeDistrict) {
-    const deactivatedDistrict = activeDistrict;
-    activeDistrict = district;
-
-    deactivatedDistrict?.update();
-    district.update();
-
-    section.remove(districtSection);
-
-    districtSection = district.render();
-    section.insertBefore(districtSection, log);
-  }
-});
-
 section.onOpen.subscribe(() => {
-  activeDistrict = new District(map.location.center);
-  districts.push(activeDistrict);
+  const initialDistrict = new District(map.location.center);
+  activeDistrict = initialDistrict;
   districtSection = activeDistrict.render();
+  districts.push(initialDistrict);
+  activeDistrict.update();
+
+  marker = new map.Marker(map.location.center.flattenedCopy(), Color.black);
+  marker.overlayBuildings = true;
+
+  centerChangeSubscription = map.location.onCenterChange.subscribe((position) => {
+    console.log("Map center changed: " + position.toString());
+    if (activeDistrict) {
+      if (marker) {
+        marker.move(position.flattenedCopy());
+      }
+      let district = districts.find((district) => district.isInside(position));
+
+      if (!district) {
+        district = new District(position);
+        districts.push(district);
+      }
+
+      if (district != activeDistrict) {
+        const deactivatedDistrict = activeDistrict;
+        activeDistrict = district;
+
+        deactivatedDistrict.update();
+        district.update();
+
+        section.remove(districtSection);
+
+        districtSection = district.render();
+        section.insertBefore(districtSection, log);
+      }
+    }
+  });
+
 });
 
 section.onClose.subscribe(() => {
-  marker.remove();
+  if (marker) {
+    marker.remove();
+  }
   section.remove(districtSection);
-  districtSection.remove();
   districts.forEach((district) => district.area.remove());
   districts.length = 0;
+  activeDistrict = null;
+
+  if (centerChangeSubscription) {
+    centerChangeSubscription.unsubscribe();
+  }
 });
