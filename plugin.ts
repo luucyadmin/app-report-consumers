@@ -34,6 +34,8 @@ section.onOpen.subscribe(() => {
   activeDistrict = initialDistrict;
   districtSection = initialDistrict.render();
   section.add(districtSection);
+  activeDistrict.update();
+  marker.show();
 
   subscription = map.location.onCenterChange.subscribe((position) => {
     if (marker) {
